@@ -15,3 +15,8 @@ How to use
 <p align="center">
   <img  alt="See! Simple interface!" src="https://i.imgur.com/m6jyjwT.png">
 </p>
+
+
+
+Stuff to do:
+ - Refactor the code
