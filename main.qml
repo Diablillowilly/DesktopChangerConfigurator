@@ -17,7 +17,7 @@ Window {
     minimumHeight: 400
     maximumWidth: 640
     maximumHeight: 400
-    title: qsTr("Hello World")
+    title: qsTr("Desktop Changer Configurator")
 
 
     BackEnd{
@@ -25,6 +25,16 @@ Window {
 
 
     }
+
+    Component.onCompleted: {
+        console.log("interface loaded")
+        my_backEnd.load()
+        comboBox_resolution.currentIndex = Math.abs(my_backEnd.resolution - 5)
+        checkBox_store_backgrounds.checked = my_backEnd.storeBackgrounds
+        text_path_select_path.text = my_backEnd.storedBackgroundsPath
+        checkBox_store_cleaned_backgrounds.checked = my_backEnd.storeCleanedBackgrounds
+    }
+
 
     Rectangle {
         id: rectangle_main
@@ -273,7 +283,7 @@ Window {
                 id: rectangle_select_path_button
                 x: 9
                 y: -3
-                width: 75
+                width: 100
                 height: 25
                 color: "#ffffff"
                 anchors.rightMargin: 2
@@ -287,6 +297,7 @@ Window {
                 Button {
                     id: button_select_path
                     text: qsTr("Browse")
+                    font.pointSize: 14
                     anchors.rightMargin: 2
                     anchors.leftMargin: 2
                     anchors.bottomMargin: 2
@@ -311,13 +322,78 @@ Window {
         }
 
         Rectangle {
+            id: rectangle_store_cleaned_backgrounds
+            x: -11
+            height: 50
+            color: "#ffffff"
+            anchors.right: parent.right
+            anchors.rightMargin: 2
+            anchors.topMargin: 0
+            anchors.leftMargin: 2
+            anchors.top: rectangle_path_enabled.bottom
+            anchors.left: parent.left
+            Text {
+                id: text_store_cleaned_backgrounds
+                width: 150
+                text: qsTr("Store previous month \n cleaned backgrounds")
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 0
+                anchors.topMargin: 0
+                anchors.leftMargin: 0
+                horizontalAlignment: Text.AlignHCenter
+                anchors.top: parent.top
+                anchors.left: parent.left
+                Rectangle {
+                    id: rectangle_text_store_cleaned_backgrounds
+                    width: parent.width - 4
+                    height: parent.height - 4
+                    color: "#ffffff"
+                    z: -1
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    border.width: 1
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+                verticalAlignment: Text.AlignVCenter
+                font.pixelSize: 14
+            }
+
+            CheckBox {
+                id: checkBox_store_cleaned_backgrounds
+                text: qsTr("")
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                autoExclusive: false
+                anchors.bottomMargin: 0
+                anchors.leftMargin: 0
+                anchors.topMargin: 0
+                anchors.rightMargin: 0
+                anchors.top: parent.top
+                anchors.left: text_store_cleaned_backgrounds.right
+                tristate: false
+                Rectangle {
+                    id: rectangle_checkbox_store_cleaned_backgrounds
+                    color: "#ffffff"
+                    anchors.fill: parent
+                    anchors.bottomMargin: 2
+                    z: -1
+                    anchors.rightMargin: 2
+                    anchors.leftMargin: 2
+                    anchors.topMargin: 2
+                    border.width: 1
+                }
+                autoRepeat: false
+            }
+            border.width: 1
+        }
+
+        Rectangle {
             id: rectangle
             color: "#ffffff"
             border.width: 1
             anchors.rightMargin: 2
             anchors.leftMargin: 2
             anchors.bottomMargin: 2
-            anchors.top: rectangle_path_enabled.bottom
+            anchors.top: rectangle_store_cleaned_backgrounds.bottom
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             anchors.left: parent.left
@@ -347,6 +423,7 @@ Window {
                         my_backEnd.resolution = Math.abs(comboBox_resolution.currentIndex - 5)
                         my_backEnd.storeBackgrounds = checkBox_store_backgrounds.checked
                         my_backEnd.storedBackgroundsPath = text_path_select_path.text
+                        my_backEnd.storeCleanedBackgrounds = checkBox_store_cleaned_backgrounds.checked
                         my_backEnd.save()
                         msg_dialog_saved.open()
                     }
@@ -355,6 +432,7 @@ Window {
 
             }
         }
+
     }
 
 
@@ -371,7 +449,6 @@ Window {
     }
     MessageDialog {
         id: msg_dialog_saved
-
         title: "SAVED"
         text: "Saved"
         /*informativeText: "In order to know where to place textures,
@@ -395,7 +472,7 @@ Window {
 
             var result = fileDialog_browse_path.fileUrls.toString()
             result = result.substring(8, result.length)
-            var max_width = 50
+            var max_width = 45
 
             if(result.length > max_width){
                 result = result.substring(0,max_width) + "\n" + result.substring(max_width)
@@ -444,8 +521,10 @@ Window {
 
 
 
+
+
 /*##^## Designer {
-    D{i:19;anchors_height:46;anchors_width:480}D{i:24;anchors_height:46;anchors_width:146}
-D{i:23;anchors_width:150}D{i:26;anchors_x:"-152";anchors_y:"-2"}D{i:1;anchors_height:50;anchors_width:640}
+    D{i:1;anchors_height:50;anchors_width:640}D{i:19;anchors_height:46;anchors_width:480}
+D{i:23;anchors_width:150}D{i:24;anchors_height:46;anchors_width:146}D{i:26;anchors_x:"-152";anchors_y:"-2"}
 }
  ##^##*/

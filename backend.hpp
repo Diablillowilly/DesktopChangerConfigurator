@@ -12,14 +12,17 @@ class backend : public QObject
 {
     Q_OBJECT
 
-    //for setting and reading pack name (pack folder name)
+    //for setting and readingresolution
     Q_PROPERTY(int resolution READ getResolution WRITE setResolution)
 
-    //for setting and reading pack description (for pack.mcmeta)
-    Q_PROPERTY(bool storeBackgrounds READ getStoreBackgrounds WRITE seStoreBackgrounds)
+    //for setting and reading storeBackgrounds
+    Q_PROPERTY(bool storeBackgrounds READ getStoreBackgrounds WRITE setStoreBackgrounds)
 
-    //for setting and reading pack format (for pack.mcmeta)
+    //for setting and reading storedBackgroundsPath
     Q_PROPERTY(QString storedBackgroundsPath READ getStoredBackgroundsPath WRITE setStoredBackgroundsPath)
+
+    //for setting and reading storedBackgroundsPath
+    Q_PROPERTY(bool storeCleanedBackgrounds READ getStoreCleanedBackgrounds WRITE setStoreCleanedBackgrounds)
 
 
 
@@ -30,10 +33,13 @@ public:
 
     //test function
     Q_INVOKABLE void test(){
-       qDebug()<< "BackEnd::test()";
+        qDebug()<< "BackEnd::test()";
     }
 
 
+
+    //load function
+    Q_INVOKABLE void load();
 
     //save function
     Q_INVOKABLE void save();
@@ -42,28 +48,37 @@ public:
         return myResolution;
     }
     void setResolution(int new_resolution){
-     myResolution = new_resolution;
+        myResolution = new_resolution;
     }
 
     bool getStoreBackgrounds(){
         return myStoreBackgrounds;
     }
-    void seStoreBackgrounds(bool storeBackgrounds){
-     myStoreBackgrounds = storeBackgrounds;
+    void setStoreBackgrounds(bool storeBackgrounds){
+        myStoreBackgrounds = storeBackgrounds;
     }
 
     QString getStoredBackgroundsPath(){
         return myStoreBackgroundsPath;
     }
-    void setStoredBackgroundsPath(QString storedBackgroundsPath){
-     myStoreBackgroundsPath = storedBackgroundsPath;
+    void setStoredBackgroundsPath(QString storeCleanedBackgrounds){
+        myStoreBackgroundsPath = storeCleanedBackgrounds;
     }
+
+    bool getStoreCleanedBackgrounds(){
+        return myStoreCleanedBackgrounds;
+    }
+    void setStoreCleanedBackgrounds(bool storeBackgrounds){
+        myStoreCleanedBackgrounds = storeBackgrounds;
+    }
+
 
 
 private:
     int myResolution = 5;
     bool myStoreBackgrounds = false;
     QString myStoreBackgroundsPath = "";
+    bool myStoreCleanedBackgrounds = false;
 
 
 
@@ -85,6 +100,9 @@ private:
     const QString store_backgrounds_def_value = "false";
     const QString store_backgrounds_path_key = "stored_backgrounds_path";
     const QString store_backgrounds_path_def_value = "";
+    const QString download_cleaned_backgrounds_key = "download_cleaned_backgrounds";
+    const QString download_cleaned_backgrounds_def_value = "false";
+
 
 
 

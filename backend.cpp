@@ -19,12 +19,47 @@ backend::backend(QObject *parent) : QObject(parent)
     if(!settings.contains(store_backgrounds_path_key)){
         settings.setValue(store_backgrounds_path_key, store_backgrounds_path_def_value);
     }
+    if(!settings.contains(download_cleaned_backgrounds_key)){
+        settings.setValue(download_cleaned_backgrounds_key, download_cleaned_backgrounds_def_value );
+    }
 }
 
 
+void backend::load(){
+    QSettings settings(storedConfigFileFullPath, QSettings::IniFormat);
+
+    myResolution = settings.value(res_key).toInt();
+
+
+
+    if(settings.value(store_backgrounds_key).toString() == "true"){
+        myStoreBackgrounds = true;
+    }else if(settings.value(store_backgrounds_key).toString() == "false"){
+        myStoreBackgrounds = false;
+    }else{
+        qCritical() << "store_backgrounds_key has an ilegal value";
+
+    }
+
+
+    myStoreBackgroundsPath = settings.value(store_backgrounds_path_key).toString();
+
+
+    if(settings.value(download_cleaned_backgrounds_key).toString() == "true"){
+        myStoreCleanedBackgrounds = true;
+    }else if(settings.value(download_cleaned_backgrounds_key).toString() == "false"){
+        myStoreCleanedBackgrounds = false;
+    }else{
+        qCritical() << "download_cleaned_backgrounds_key has an ilegal value";
+
+    }
+    qDebug()<< "LOADED";
+    return;
+}
+
 void backend::save(){
     QSettings settings(storedConfigFileFullPath, QSettings::IniFormat);
-qDebug() << "myres"<< myResolution;
+    qDebug() << "myres"<< myResolution;
     if(myResolution < 5 || myResolution > 0){
         settings.setValue(res_key, QString::number(myResolution));
 
@@ -42,11 +77,21 @@ qDebug() << "myres"<< myResolution;
     }
 
     if(!myStoreBackgroundsPath.isEmpty()){
-        settings.setValue(store_backgrounds_path_key, myStoreBackgroundsPath );
-
+        settings.setValue(store_backgrounds_path_key, myStoreBackgroundsPath);
     }else{
         qCritical() << "myStoreBackgroundsPath has an ilegal value";
     }
-        qDebug()<< "SAVED";
+
+    if(myStoreCleanedBackgrounds == true){
+        settings.setValue(download_cleaned_backgrounds_key, "true");
+    }else if (myStoreCleanedBackgrounds == false){
+        settings.setValue(download_cleaned_backgrounds_key, "false");
+    }else{
+        qCritical() << "myStoreCleanedBackgrounds has an ilegal value";
+    }
+
+
+
+    qDebug()<< "SAVED";
     return;
 }
