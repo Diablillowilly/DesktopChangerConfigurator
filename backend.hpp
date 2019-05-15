@@ -21,7 +21,7 @@ class backend : public QObject
     //for setting and reading storedBackgroundsPath
     Q_PROPERTY(QString storedBackgroundsPath READ getStoredBackgroundsPath WRITE setStoredBackgroundsPath)
 
-    //for setting and reading storedBackgroundsPath
+    //for setting and reading storeCleanedBackgrounds
     Q_PROPERTY(bool storeCleanedBackgrounds READ getStoreCleanedBackgrounds WRITE setStoreCleanedBackgrounds)
 
 
