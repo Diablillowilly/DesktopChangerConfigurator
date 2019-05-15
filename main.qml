@@ -442,8 +442,8 @@ Window {
     MessageDialog {
         id: msg_dialog_need_to_specify_path
         title: "WARNING"
-        text: "You have to first choose a path"
-        informativeText: "In order to know where to place textures,
+        text: "You have to choose a path first"
+        informativeText: "In order to know where to place the backgrounds,
       please choose a folder to store the downloaded backgrounds"
         icon:StandardIcon.Critical
     }
